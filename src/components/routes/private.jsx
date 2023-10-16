@@ -9,11 +9,13 @@ import Spinners from "../spinners";
 const Private = () => {
   const [ok, setok] = useState(false);
   const [auth, setauth] = useAuth();
-  axios.defaults.headers.common["Authorization"] = auth?.token;
+  
   useEffect(() => {
     const Authcheck = async () => {
       try {
+        axios.defaults.headers.common["Authorization"] = auth.token;
         const res = await axios.get("http://localhost:8080/user-auth");
+        
         if (res.data.ok) {
           setok(true);
         } else {

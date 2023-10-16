@@ -4,6 +4,7 @@ import { useState } from "react";
 import axios from "axios";
 import { useAuth, AuthProvider } from "../../../context/authRoute.jsx";
 import { Spinner } from "flowbite-react";
+import Spinners from "../../spinners";
 const Login = () => {
   const navigate = useNavigate();
   const [error, setError] = useState("");
@@ -22,13 +23,14 @@ const Login = () => {
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
+    // <Spinners />
     // window.history.pushState({}, "", "/loggedin");
 
     const { email, password } = formData;
-
+    // const trimmedEmail = email.trim();
     // Check if name, email, and password are not empty
     if (!email || !password) {
-      // toast.error("Please fill in all fields.");
+      toast.error("Please fill in all fields.");
       setError("Please fill in all fields.");
       return;
     }
@@ -41,6 +43,7 @@ const Login = () => {
     };
     try {
       const res = await axios.post("http://localhost:8080/login", formData);
+      // <Spinners />
       if (res && res.data) {
         setError(`${res.data.message}`);
         setauth({
@@ -84,7 +87,7 @@ const Login = () => {
               <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
                 Login
               </h1>
-              <form className="space-y-4 md:space-y-6" action="#">
+              <form className="space-y-4 md:space-y-6" onSubmit={handleSubmit}>
                 <div>
                   <label
                     htmlFor="email"
@@ -121,32 +124,32 @@ const Login = () => {
                     required
                   />
                 </div>
-                <h1>
-                  {error && (
-                    <span className="text-red-500 text-lg font-bold ">
-                      {error}
-                    </span>
-                  )}
-                </h1>
+
+                {error && (
+                  <div className="text-red-500 text-lg font-bold ">{error}</div>
+                )}
+
+                <button>
+                  {" "}
+                  <h1
+                    className="ml-1 text-sm font-bold font-serif w-full  "
+                    onClick={() => {
+                      navigate("/forgotpassword");
+                    }}
+                  >
+                    Forgot Password{" "}
+                  </h1>
+                </button>
                 <div>
                   <button
                     type="submit"
                     // value={submit}
 
-                    onClick={handleSubmit}
+                    // onClick={handleSubmit}
                     className="w-full py-3 text-white bg-gray-900 rounded-md hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-900 focus:ring-opacity-50"
                   >
                     LogIn
                   </button>
-                  <div
-                    // type="submit"
-                    // value={submit}
-                    onClick = {() => {navigate("/forgotpassword")}}
-                    // onClick={handleSubmit}
-                    className="w-full py-3 text-white bg-gray-900 rounded-md hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-900 focus:ring-opacity-50"
-                  >
-                    Forgot Password
-                  </div>
                 </div>
               </form>
             </div>

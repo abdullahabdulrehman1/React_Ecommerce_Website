@@ -1,27 +1,21 @@
-import React, { useState, useEffect } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import Layout from "../../layout/layout";
-import dotenv from "dotenv";
-
-// dotenv.config();
-// dotenv.config();
-// import { toast} from 'react-toastify';
-import { ToastContainer, toast } from "react-toastify";
-// import dotenv from 'dotenv';
-import "react-toastify/dist/ReactToastify.css";
+import { useState } from "react";
+import { useAuth } from "../../../context/authRoute";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
-import { Spinner } from "flowbite-react";
-const Register = () => {
+import { toast } from "react-toastify";
+
+const ForgotPassword = () => {
   const navigate = useNavigate();
   const [error, setError] = useState("");
-
+  const [trueerror, settrueError] = useState("");
+  const location = useLocation();
+  //   const [auth, setauth] = useAuth();
   const [formData, setFormData] = useState({
-    name: "",
     email: "",
-    password: "",
+    newpassword: "",
     question: "",
   });
-
   const handleChange = (event) => {
     const { name, value } = event.target;
     setFormData({
@@ -30,51 +24,61 @@ const Register = () => {
     });
   };
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-
-    
-    const { name, email, password, question } = formData;
-    // Check if name, email, and password are not empty
-    if (!name || !email || !password || !question) {
-      // toast.error("Please fill in all fields.");
-      setError("Please fill in all fields.");
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const { email, question, newpassword } = formData;
+    if (!email || !newpassword || !question) {
+      toast.error("Please fill in all fields.");
+      settrueError("Please fill in all fields.");
       return;
     }
 
-    // Create a data object to send to the server
     const data = {
-      name,
-      question,
       email,
-      password,
-      // question,
+      newpassword,
+      question,
     };
-
-    const res = axios
-      .post("http://localhost:8080/register", data)
-      .then((response) => {
-        // Handle success - you can redirect or show a success message
-
-        setFormData({
-          name: "",
-          email: "",
-          password: "",
-          question: "",
-        });
-        toast.success("Registration successful!");
+    try {
+      const res = await axios.post(
+        "http://localhost:8080/forgot-password",
+        formData
+      );
+      if (res && res.data) {
+        settrueError(`${res.data.message}`);
+        setTimeout(() => {
+          settrueError("");
+        }, 2000);
+        // setauth({
+        //   ...auth,
+        //   user: res.data.user,
+        //   token: res.data.token,
+        // });
+        // localStorage.setItem("auth", JSON.stringify(res.data));
+        toast.success("Password Changed Successfully");
+        // setError(`${res.data.message}`);
+        // if (location.state && location.state.from === "/dashboard") {
+        //   navigate("/dashboard");
+        // } else {
+          navigate("/login");
+        // }
+      } else {
+        setError(`${res.data.message}`);
+        setTimeout(() => {
+          setError("");
+        }, 2000);
+      }
+    } catch (error) {
+      setError(`${res.data.message}`);
+      setTimeout(() => {
         setError("");
-        navigate("/login");
-      })
-      .catch((error) => {
-        toast.error(`${error.response.data.message}`);
-        // Handle errors - display an error message using toast
-        setError(`${error.response.data.message}`);
-      });
+      }, 2000);
+      console.log({ error });
+    }
   };
-  // const er='';
+
   return (
-    <Layout title={"Registeration | Ecommerce"}>
+    // <div>ForgotPassword</div>
+    <Layout title={"Forgot Password | Ecommerce"}>
       <div className="dark:bg-gray-900  light:bg-white-500">
         <div className="flex flex-col items-center justify-center px-6 py-0 mx-auto md:h-5/6 md:my-20 lg:py-0">
           <a
@@ -92,9 +96,9 @@ const Register = () => {
           <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
             <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
               <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
-                Create an account
+                Forgot Password
               </h1>
-              <form className="space-y-4 md:space-y-6" action="#">
+              <form className="space-y-4 md:space-y-6" onSubmit={handleSubmit}>
                 <div>
                   <label
                     htmlFor="email"
@@ -113,35 +117,19 @@ const Register = () => {
                     required
                   />
                 </div>
+
                 <div>
                   <label
                     htmlFor="name"
                     className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                   >
-                    Your name
-                  </label>
-                  <input
-                    type="text"
-                    name="name"
-                    id="name"
-                    value={formData.name}
-                    onChange={handleChange}
-                    className="block name w-full p-3 rounded-md bg-gray-100 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0"
-                    required
-                  />
-                </div>
-                <div>
-                  <label
-                    htmlFor="name"
-                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                  >
-                    Password
+                    New Password
                   </label>
                   <input
                     type="password"
-                    name="password"
-                    id="password"
-                    value={formData.password}
+                    name="newpassword"
+                    id="newpassword"
+                    value={formData.newpassword}
                     onChange={handleChange}
                     className="block w-full p-3 rounded-md bg-gray-100 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0"
                     required
@@ -155,32 +143,33 @@ const Register = () => {
                     Security Question
                   </label>
                   <input
-                    type="question"
+                    type="text"
                     name="question"
                     id="question"
-                    placeholder="What is your favourite color?"
                     value={formData.question}
                     onChange={handleChange}
                     className="block w-full p-3 rounded-md bg-gray-100 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0"
                     required
                   />
                 </div>
-                <h1>
-                  {" "}
-                  {error && (
-                    <span className="text-red-500 text-lg font-bold ">
-                      {error}
-                    </span>
-                  )}
-                </h1>
-                
+
+                {trueerror ? (
+                  <div className="text-green-500 text-lg font-bold">
+                    {trueerror}
+                  </div>
+                ) : error ? (
+                  <div className="text-red-500 text-lg font-bold">{error}</div>
+                ) : null}
+
                 <div>
                   <button
                     type="submit"
-                    onClick={handleSubmit}
+                    // value={submit}
+
+                    // onClick={handleSubmit}
                     className="w-full py-3 text-white bg-gray-900 rounded-md hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-900 focus:ring-opacity-50"
                   >
-                    Create account
+                    Change Password
                   </button>
                 </div>
               </form>
@@ -191,5 +180,4 @@ const Register = () => {
     </Layout>
   );
 };
-
-export default Register;
+export default ForgotPassword;
