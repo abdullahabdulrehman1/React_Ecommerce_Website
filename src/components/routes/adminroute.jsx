@@ -5,7 +5,7 @@ import { Outlet } from "react-router-dom";
 import axios from "axios";
 import Spinners from "../spinners";
 
-const Private = () => {
+const Admin = () => {
   const [ok, setok] = useState(false);
   const [auth, setauth] = useAuth();
 
@@ -13,7 +13,7 @@ const Private = () => {
     const Authcheck = async () => {
       try {
         axios.defaults.headers.common["Authorization"] = auth?.token;
-        const res = await axios.get("http://localhost:8080/user-auth");
+        const res = await axios.get("http://localhost:8080/admin-auth");
 
         if (res.data.ok) {
           setok(true);
@@ -28,7 +28,6 @@ const Private = () => {
       Authcheck();
     }
   }, [auth?.token]);
-  return ok ? <Outlet /> : <Spinners />;
+  return ok ? <Outlet /> : <Spinners path="/"/>;
 };
-
-export default Private;
+export default Admin;

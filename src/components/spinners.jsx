@@ -2,7 +2,7 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
-const Spinners = () => {
+const Spinners = ({path = "login"}) => {
   const navigate = useNavigate();
   const [count, setcount] = useState(5);
 const location = useLocation();
@@ -14,7 +14,7 @@ const location = useLocation();
         if (location.state && location.state.from) {
             navigate(`/${location.state.from}`);
           } else {
-            navigate("/login");
+            navigate(`${path}`);
           }
       
     //   state: location.pathname;
@@ -22,7 +22,7 @@ const location = useLocation();
       clearInterval(interval);
     }
     return () => clearInterval(interval);
-  }, [count, navigate,location]);
+  }, [count, navigate,location,path]);
 
   return (
     <div className="flex justify-center items-center h-screen bg-gray-800">

@@ -9,7 +9,7 @@ const About = () => {
     <div>
     <Layout title={'About Us | Ecommerce'} >
     <div className='container  flex flex-wrap mb-4 justify-center  mx-auto rounded-xl p-5  border border-gray-800  mt-10'>
-      <img  src='/public/aboutus.jpg' className=' w-full h-50  lg:w-1/3 rounded-xl '/>
+      <img  src='aboutus.jpg' className=' w-full h-50  lg:w-1/3 rounded-xl '/>
       <div className='  w-full lg:w-1/2 lg:ml-5'>
 
       <h1 className='text-3xl font-bold'>About Us</h1>

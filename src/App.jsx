@@ -4,7 +4,7 @@ import React from "react";
 import { Route, BrowserRouter, Routes } from "react-router-dom";
 // import { redirectedirect } from 'react-router-dom';
 import Home from "./components/pages/Home";
-import About from "./components/pages/about";
+// import About from "./components/pages/about.jsx";
 import Contact from "./components/pages/contact";
 // import { RedirectFunction } from 'react-router-dom';
 import Policy from "./components/pages/policy";
@@ -15,6 +15,9 @@ import Dashboard from "./components/pages/user/dashboard";
 import Private from "./components/routes/private";
 import { AuthProvider, useAuth } from "./context/authRoute";
 import ForgotPassword from "./components/pages/Auth/forgotpassword";
+import AdminRoute from "./components/routes/adminroute";
+import About from "./components/pages/About";
+import AdminDashboard from "./components/pages/admin/admindashboard";
 
 const App = () => {
   // const [auth, setauth] = useAuth();
@@ -24,10 +27,11 @@ const App = () => {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/dashboard" element={<Private />} >
-
-          <Route path="" element={<Dashboard />} />
-
+          <Route path="/dashboard" element={<Private />}>
+            <Route path="user" element={<Dashboard />} />
+          </Route>
+          <Route path="/dashboard" element={<AdminRoute />}>
+            <Route path="admin" element={<AdminDashboard />} />
           </Route>
 
           <Route path="/about" element={<About />} />
