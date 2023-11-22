@@ -2,27 +2,27 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
-const Spinners = ({path = "login"}) => {
+const Spinners = ({ path = "login" }) => {
   const navigate = useNavigate();
-  const [count, setcount] = useState(5);
-const location = useLocation();
+  const [count, setcount] = useState(3);
+  const location = useLocation();
   useEffect(() => {
     const interval = setInterval(() => {
       setcount((previous) => previous - 1);
     }, 1000);
     if (count === 0) {
-        if (location.state && location.state.from) {
-            navigate(`/${location.state.from}`);
-          } else {
-            navigate(`${path}`);
-          }
-      
-    //   state: location.pathname;
-    //   this.state.location.pathname;
+      if (location.state && location.state.from) {
+        navigate(`/${location.state.from}`);
+      } else {
+        navigate(`${path}`);
+      }
+
+      //   state: location.pathname;
+      //   this.state.location.pathname;
       clearInterval(interval);
     }
     return () => clearInterval(interval);
-  }, [count, navigate,location,path]);
+  }, [count, navigate, location, path]);
 
   return (
     <div className="flex justify-center items-center h-screen bg-gray-800">

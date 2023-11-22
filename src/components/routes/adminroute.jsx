@@ -4,6 +4,7 @@ import { useAuth } from "../../context/authRoute";
 import { Outlet } from "react-router-dom";
 import axios from "axios";
 import Spinners from "../spinners";
+import AdminDashboard from "../pages/admin/admindashboard";
 
 const Admin = () => {
   const [ok, setok] = useState(false);
@@ -18,9 +19,11 @@ const Admin = () => {
         if (res.data.ok) {
           setok(true);
         } else {
-          setok(falsfe);
+          setok(false);
+          console.log(ok)
         }
       } catch (error) {
+        console.log(error)
         setok(false);
       }
     };

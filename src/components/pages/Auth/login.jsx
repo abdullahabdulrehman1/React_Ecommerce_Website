@@ -10,6 +10,7 @@ const Login = () => {
   const [error, setError] = useState("");
   const location = useLocation();
   const [auth, setauth] = useAuth();
+
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -50,6 +51,7 @@ const Login = () => {
           ...auth,
           user: res.data.user,
           token: res.data.token,
+          auth: res.data.auth,
           //   password: res.data.password,
         });
         localStorage.setItem("auth", JSON.stringify(res.data));
@@ -125,6 +127,7 @@ const Login = () => {
                   />
                 </div>
 
+                {/* {error && timeout(error)} */}
                 {error && (
                   <div className="text-red-500 text-lg font-bold ">{error}</div>
                 )}

@@ -1,11 +1,10 @@
-import Layout from "../../layout/layout"
+import Layout from "../../layout/layout";
 
 const AdminDashboard = () => {
-    return (
-        <Layout>
+  return (
+    <Layout>
       <div>AdminDashboard</div>
-
     </Layout>
-  )
-}
-export default AdminDashboard
+  );
+};
+export default AdminDashboard;

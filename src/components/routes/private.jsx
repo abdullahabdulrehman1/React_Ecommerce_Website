@@ -17,8 +17,10 @@ const Private = () => {
 
         if (res.data.ok) {
           setok(true);
+          setauth(true)
         } else {
-          setok(falsfe);
+          setok(false);
+          setauth(false)
         }
       } catch (error) {
         setok(false);

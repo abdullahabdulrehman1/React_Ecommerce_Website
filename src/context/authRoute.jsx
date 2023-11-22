@@ -8,6 +8,8 @@ const AuthProvider = ({ children }) => {
     user: null,
     // _id: null,
     token: "",
+    auth: "",
+
     // auth: false,
     // password: "",
   });
@@ -16,16 +18,21 @@ const AuthProvider = ({ children }) => {
     if(data){
         const parse = JSON.parse(data);
         setauth({
-            ...auth,
+            
             user: parse.user,
             token: parse.token,
-            auth: true,
+            auth: parse.auth,
+            
             password: parse.password,
+
+            auth: auth.role,
+            
         })
     }
   }, [])
   return (
     <AuthContext.Provider value={[auth, setauth]}>
+    {/* console.log(auth) */}
       {children}
     </AuthContext.Provider>
   );

@@ -11,7 +11,7 @@ import Policy from "./components/pages/policy";
 import Register from "./components/pages/Auth/register";
 import Login from "./components/pages/Auth/login";
 import Dashboard from "./components/pages/user/dashboard";
-// import PrivateRoute from './';
+
 import Private from "./components/routes/private";
 import { AuthProvider, useAuth } from "./context/authRoute";
 import ForgotPassword from "./components/pages/Auth/forgotpassword";
