@@ -13,7 +13,7 @@ import Login from "./components/pages/Auth/login";
 import Dashboard from "./components/pages/user/dashboard";
 
 import Private from "./components/routes/private";
-import { AuthProvider, useAuth } from "./context/authRoute";
+import { AuthProvider } from "./context/authRoute";
 import ForgotPassword from "./components/pages/Auth/forgotpassword";
 import AdminRoute from "./components/routes/adminroute";
 import About from "./components/pages/About";

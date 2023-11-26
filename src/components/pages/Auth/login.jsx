@@ -2,15 +2,17 @@ import Layout from "../../layout/layout";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import axios from "axios";
-import { useAuth, AuthProvider } from "../../../context/authRoute.jsx";
+// import { useAuth, AuthProvider } from "../../../context/authRoute.jsx";
 import { Spinner } from "flowbite-react";
 import Spinners from "../../spinners";
+import { useDispatchContext, useStateContext } from "../../../context/authRoute";
 const Login = () => {
   const navigate = useNavigate();
   const [error, setError] = useState("");
   const location = useLocation();
-  const [auth, setauth] = useAuth();
-
+  // const [auth, setauth] = useAuth();
+const {auth } = useStateContext();
+const dispatch = useDispatchContext();
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -47,14 +49,18 @@ const Login = () => {
       // <Spinners />
       if (res && res.data) {
         setError(`${res.data.message}`);
-        setauth({
+        dispatch({
+          type: 'login',
+          payload:{
           ...auth,
           user: res.data.user,
           token: res.data.token,
-          auth: res.data.auth,
+          auth: res.data.user.auth,}
           //   password: res.data.password,
         });
-        localStorage.setItem("auth", JSON.stringify(res.data));
+        console.log(` he ${res.data.user}`)
+        localStorage.setItem('user', JSON.stringify(res.data.user));
+  localStorage.setItem('token', res.data.token);
         if (location.state && location.state.from === "/dashboard") {
           navigate("/dashboard");
         } else {
@@ -66,6 +72,7 @@ const Login = () => {
     } catch (error) {
       setError(`${error.response.data.message}`);
     }
+    // localStorage.setItem(auth);
   };
 
   return (

@@ -2,7 +2,8 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
-const Spinners = ({ path = "login" }) => {
+const Spinners = ({ }) => {
+  const path = '/login'
   const navigate = useNavigate();
   const [count, setcount] = useState(3);
   const location = useLocation();
@@ -12,7 +13,7 @@ const Spinners = ({ path = "login" }) => {
     }, 1000);
     if (count === 0) {
       if (location.state && location.state.from) {
-        navigate(`/${location.state.from}`);
+        navigate(`${path}`);
       } else {
         navigate(`${path}`);
       }
