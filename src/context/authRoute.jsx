@@ -1,5 +1,11 @@
 // import { data } from "autoprefixer";
-import React, { createContext, useContext, useEffect, useReducer } from "react";
+import React, {
+  createContext,
+  useContext,
+  useEffect,
+  useReducer,
+  useState,
+} from "react";
 import { useNavigate } from "react-router-dom";
 
 const StateContext = createContext();
@@ -9,8 +15,7 @@ const initialState = {
   user: null,
   token: "",
   auth: false,
-  loading: true,
-  role: null,
+  role: "0",
 };
 
 const reducer = (state, { type, payload }) => {
@@ -20,13 +25,10 @@ const reducer = (state, { type, payload }) => {
     case "login":
       return {
         ...state,
-
-        user: payload.user,
-
+        user: payload.user, 
         token: payload.token,
         auth: payload.auth,
-        loading: false,
-        role: payload.user.role,
+        role: payload.role,
       };
     case "logout":
       return { initialState };
@@ -37,6 +39,7 @@ const reducer = (state, { type, payload }) => {
 
 export const AuthProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
+  const [loading, setLoading] = useState(true); // Add this line
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem("user"));
     const token = localStorage.getItem("token");
@@ -47,12 +50,16 @@ export const AuthProvider = ({ children }) => {
         payload: {
           ...state,
           user,
-          auth: user.auth,
+          // token,
+          role: Number(user.role),
+          // auth,
           token,
           // user.auth,
         },
       });
     }
+    setLoading(false);
+   
   }, []);
   return (
     <DispatchContext.Provider value={dispatch}>

@@ -7,33 +7,42 @@ import Spinners from "../spinners";
 import { useDispatchContext, useStateContext } from "../../context/authRoute";
 
 const Private = () => {
-
-  
-  const { user, token }  = useStateContext();
+  const { user, token } = useStateContext();
   const dispatch = useDispatchContext();
   const [ok, setok] = useState(false);
+  const [loading, setLoading] = useState(true); // Add this line
+
   useEffect(() => {
     const Authcheck = async () => {
       try {
-        axios.defaults.headers.common["Authorization"] = token;
-        const res = await axios.get("http://localhost:8080/user-auth");
+        setLoading(true);
+        const token = localStorage.getItem("token");
+        if (token) {
+          axios.defaults.headers.common["Authorization"] = token;
 
-        if (res.data.ok ) {
-          setok(true);
-      
-        } else {
-          setok(false);
-        
+          const res = await axios.get("http://localhost:8080/user-auth");
+
+          if (res.data.ok) {
+            setok(true);
+          } else {
+            localStorage.removeItem("token");
+            setok(false);
+          }
         }
       } catch (error) {
         setok(false);
       }
+
+      setLoading(false); // Stop loading
     };
+
     Authcheck();
-    // console.log(ok)
-    
   }, [token]);
-  console.log(ok)
+
+  if (loading) {
+    return <Spinners />;
+  }
+
   return ok ? <Outlet /> : <Spinners />;
 };
 

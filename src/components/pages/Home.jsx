@@ -12,8 +12,9 @@ const Home = () => {
       <main>
         <h1 className="text-3xl border bg-orange-500 border-red-600 underline">HomePage</h1>
         <h2>Auth: {user && user.auth ? 'Logged in' : 'Not logged in'}</h2>
-        <h2>User: {user ? JSON.stringify(user, null, 2) : 'No user'}</h2>
+        <h2>User: {user ? JSON.stringify(user ) : 'No user'}</h2>
         <h2>Token: {token ? token : 'No token'}</h2>
+        <h2>Role: {token ? user.role : '0'}</h2>
         <h2>Password: {user ? user.password : 'No password'}</h2>
       </main>
     </Layout>

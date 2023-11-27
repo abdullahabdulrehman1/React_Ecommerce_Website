@@ -2,17 +2,20 @@ import Layout from "../../layout/layout";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import axios from "axios";
-// import { useAuth, AuthProvider } from "../../../context/authRoute.jsx";
-import { Spinner } from "flowbite-react";
-import Spinners from "../../spinners";
-import { useDispatchContext, useStateContext } from "../../../context/authRoute";
+import {
+  useDispatchContext,
+  useStateContext,
+} from "../../../context/authRoute";
 const Login = () => {
   const navigate = useNavigate();
   const [error, setError] = useState("");
   const location = useLocation();
   // const [auth, setauth] = useAuth();
-const {auth } = useStateContext();
-const dispatch = useDispatchContext();
+  const { user, token } = useStateContext();
+  // const user.role = useStateContext();
+  const [loading, setLoading] = useState(true);
+
+  const dispatch = useDispatchContext();
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -26,11 +29,7 @@ const dispatch = useDispatchContext();
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // <Spinners />
-    // window.history.pushState({}, "", "/loggedin");
-
     const { email, password } = formData;
-    // const trimmedEmail = email.trim();
     // Check if name, email, and password are not empty
     if (!email || !password) {
       toast.error("Please fill in all fields.");
@@ -49,23 +48,28 @@ const dispatch = useDispatchContext();
       // <Spinners />
       if (res && res.data) {
         setError(`${res.data.message}`);
+        setLoading(false);
         dispatch({
-          type: 'login',
-          payload:{
-          ...auth,
-          user: res.data.user,
-          token: res.data.token,
-          auth: res.data.user.auth,}
+          type: "login",
+          payload: {
+            // ...auth.state,
+            ...user,
+            user: res.data.user,
+            token: res.data.token,
+          },
           //   password: res.data.password,
         });
-        console.log(` he ${res.data.user}`)
-        localStorage.setItem('user', JSON.stringify(res.data.user));
-  localStorage.setItem('token', res.data.token);
+
+        // console.log(` JSON.Stringify(${res.data.user})`)
+        localStorage.setItem("user", JSON.stringify(res.data.user));
+        localStorage.setItem("token", res.data.token);
+        // console.log(JSON.stringify(user.role))
         if (location.state && location.state.from === "/dashboard") {
           navigate("/dashboard");
         } else {
           navigate("/");
         }
+        // console.log(token)
       } else {
         setError(`${res.data.message}`);
       }
@@ -76,6 +80,9 @@ const dispatch = useDispatchContext();
   };
 
   return (
+    // loading ? <Spinners /> :
+    // {setInterval(() => {}, 1000)}
+    // loading? <Spinners /> :
     <Layout title={"Login | Ecommerce"}>
       <div className="dark:bg-gray-900  light:bg-white-500">
         <div className="flex flex-col items-center justify-center px-6 py-0 mx-auto md:h-5/6 md:my-20 lg:py-0">

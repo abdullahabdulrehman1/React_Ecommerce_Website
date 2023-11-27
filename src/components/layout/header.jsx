@@ -12,6 +12,7 @@ const Header = () => {
   const {user,token} = useStateContext();
   const dispatch = useDispatchContext();
   const userstringify = JSON.stringify(user);
+  
   const handlelogout = () => {
     dispatch({
       user: "",

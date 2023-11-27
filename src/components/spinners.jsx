@@ -10,7 +10,7 @@ const Spinners = ({ }) => {
   useEffect(() => {
     const interval = setInterval(() => {
       setcount((previous) => previous - 1);
-    }, 1000);
+    }, 2000);
     if (count === 0) {
       if (location.state && location.state.from) {
         navigate(`${path}`);
