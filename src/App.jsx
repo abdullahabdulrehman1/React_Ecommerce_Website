@@ -19,6 +19,11 @@ import AdminDashboard from "./components/pages/admin/admindashboard";
 import { Spinner } from "flowbite-react";
 import UserRoute from "./components/routes/userroute";
 import UserDashboard from "./components/pages/user/userdashboard";
+import CreateCategory from "./components/pages/admin/createcategory";
+import CreateProduct from "./components/pages/admin/createproduct";
+import User from "./components/pages/admin/user";
+import Order from "./components/pages/user/order";
+import UserProfile from "./components/pages/user/profile";
 // import Admin from "./components/routes/adminroute";
 
 const App = () => {
@@ -29,18 +34,16 @@ const App = () => {
       <Routes>
         <Route path="/" element={<Home />} />
 
-        <Route
-          path={`/dashboard/user`}
-          element={role === 1 ? <AdminRoute /> : <UserRoute />}
-        >
-          <Route
-            index
-            // path={Number(role == 0) ? "user" : "admin"}
-            element={role === 0 ? <UserDashboard /> : <AdminDashboard />}
-          />
+        <Route path={`/dashboard/`} element={<UserRoute />}>
+          <Route path="user" element={<UserDashboard />} />
+          <Route path="user/orders" element={<Order />} />
+          <Route path="user/profile" element={<UserProfile />} />
         </Route>
-        <Route path="/dashboard/admin" element={<AdminRoute />}>
-          <Route index element={<AdminDashboard />} />
+        <Route path={`/dashboard/`} element={<AdminRoute />}>
+          <Route path="admin" element={<AdminDashboard />} />
+          <Route path="admin/create-category" element={<CreateCategory />} />
+          <Route path="admin/create-product" element={<CreateProduct />} />
+          <Route path="admin/allusers" element={<User />} />
         </Route>
 
         <Route path="/about" element={<About />} />

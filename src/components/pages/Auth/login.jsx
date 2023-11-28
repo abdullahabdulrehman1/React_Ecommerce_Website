@@ -7,6 +7,7 @@ import {
   useStateContext,
 } from "../../../context/authRoute";
 import { Toast } from "flowbite-react";
+import { toast } from "react-toastify";
 const Login = () => {
   const navigate = useNavigate();
   const [error, setError] = useState("");
@@ -55,9 +56,11 @@ const Login = () => {
             auth: Boolean(res.data.user.auth),
           },
         });
-        // Toast.success("Login Success");
         localStorage.setItem("user", JSON.stringify(res.data.user));
         localStorage.setItem("token", res.data.token);
+    
+        toast.success("Login Success");
+
      
       } else {
         setError(`${res.data.message}`);
@@ -65,7 +68,7 @@ const Login = () => {
     } catch (error) {
       setError(`${error.response.data.message}`);
     }
-    // localStorage.setItem(auth);
+    
   };
 
   return (

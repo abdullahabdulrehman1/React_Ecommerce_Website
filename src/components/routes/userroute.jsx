@@ -6,11 +6,11 @@ import Spinners from "../spinners";
 import { useDispatchContext, useStateContext } from "../../context/authRoute";
 
 const UserRoute = () => {
-  const { user,token } = useStateContext();
+  const { user, token } = useStateContext();
   const dispatch = useDispatchContext();
   const [ok, setok] = useState(false);
   const [loading, setLoading] = useState(true); // Add this line
-  
+
   useEffect(() => {
     const Authcheck = async () => {
       try {
@@ -18,11 +18,11 @@ const UserRoute = () => {
         const token = localStorage.getItem("token");
         if (token) {
           axios.defaults.headers.common["Authorization"] = token;
-          
+
           const res = await axios.get("http://localhost:8080/user-auth");
-console.log(res.data.message)
-console.log(res.data.ok)
-          if (res.data.ok === true) {
+          console.log(res.data.message);
+          console.log(res.data.ok);
+          if (res.data.ok === true && user?.role == 0) {
             setok(true);
           } else {
             // localStorage.removeItem("token");
@@ -32,7 +32,7 @@ console.log(res.data.ok)
         }
       } catch (err) {
         if (err.response && err.response.data.ok === false) {
-       dispatch({
+          dispatch({
             type: "logout",
           });
           setok(false);
@@ -42,14 +42,13 @@ console.log(res.data.ok)
       }
     };
     Authcheck();
-    
   }, [token]);
-  
+
   if (loading) {
     return <Spinners />;
   }
-  
-  return ok ? <Outlet /> : <Spinners path={"/login"}/>;
+
+  return ok ? <Outlet /> : <Spinners path={"/login"} />;
 };
 
 export default UserRoute;

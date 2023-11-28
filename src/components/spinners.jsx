@@ -2,7 +2,7 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
-const Spinners = ({String: path}) => {
+const Spinners = ({ String: path }) => {
   // const path = String(path);
   const navigate = useNavigate();
   const [count, setcount] = useState(3);
@@ -10,7 +10,7 @@ const Spinners = ({String: path}) => {
   useEffect(() => {
     const interval = setInterval(() => {
       setcount((previous) => previous - 1);
-    }, 2000);
+    }, 500);
     if (count === 0) {
       if (location.state && location.state.to) {
         navigate(`${path}`);

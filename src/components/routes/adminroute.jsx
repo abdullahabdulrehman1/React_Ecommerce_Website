@@ -24,7 +24,7 @@ const AdminRoute = () => {
           const res = await axios.get("http://localhost:8080/admin-auth");
           // console.log(res.data.ok);
           // console.log("this" + role);
-          if (res.data.ok == true) {
+          if (res.data.ok == true ) {
             setok(true);
           } else {
             // The token is invalid, remove it from local storage

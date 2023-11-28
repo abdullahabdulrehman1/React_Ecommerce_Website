@@ -14,7 +14,7 @@ function Footer() {
         <Link to={"/about"} className="mr-3">
           About
         </Link>
-        <span className= "mr-3">|</span>
+        <span className="mr-3">|</span>
         <Link to={"/contact"} className="mr-3">
           Contact
         </Link>

@@ -19,14 +19,17 @@ const Header = () => {
 
     localStorage.removeItem("user");
     localStorage.removeItem("token");
-    toast.success("Logout Successfully");
+    
+    toast.error("Logout Successfully",);
+      
+    
   };
   return (
     <div>
       <nav className="container mx-auto rounded-lg my-5 bg-white border border-gray-600 ">
         <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
-          <a href="https://flowbite.com/" className="flex items-center">
-            <img src="vite.svg" className="h-8 mr-3" alt="Flowbite Logo" />
+          <a href="" className="flex items-center">
+           
             <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
               Ecommerce Store
             </span>
