@@ -7,17 +7,14 @@ import { toast } from "react-toastify";
 import useState from "react";
 import { useDispatchContext, useStateContext } from "../../context/authRoute";
 
-
 const Header = () => {
-  const {user,token} = useStateContext();
+  const { user, token } = useStateContext();
   const dispatch = useDispatchContext();
   const userstringify = JSON.stringify(user);
-  
+
   const handlelogout = () => {
     dispatch({
-      user: "",
-      token: "",
-      auth: false,
+    type: "logout",
     });
 
     localStorage.removeItem("user");
@@ -26,7 +23,7 @@ const Header = () => {
   };
   return (
     <div>
-      <nav className="container mx-auto rounded-lg my-5 bg-white border border-gray-600 dark:bg-gray-900">
+      <nav className="container mx-auto rounded-lg my-5 bg-white border border-gray-600 ">
         <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
           <a href="https://flowbite.com/" className="flex items-center">
             <img src="vite.svg" className="h-8 mr-3" alt="Flowbite Logo" />
@@ -70,10 +67,12 @@ const Header = () => {
                 </a>
               </li>
               <li>
-              {/* console.log(user.role) */}
+                {/* console.log(user.role) */}
                 <a
-              //  href = {}
-              href={`/dashboard/${Number(user?.role) === 1 ? "admin" : "user"}`}
+                  //  href = {}
+                  href={`/dashboard/${
+                    Number(user?.role) == 1 ? ("admin" ) : ("user")
+                  }`}
                   className="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
                 >
                   Dashboard
@@ -81,7 +80,7 @@ const Header = () => {
               </li>
               <li className="flex">
                 <a
-                  href="#"
+                  href="#"  
                   className="flex py-0 pl-3 pr-4  text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
                 >
                   <span className="mt-1 mr-2">
@@ -91,7 +90,7 @@ const Header = () => {
                   Cart
                 </a>
               </li>
-              {!user?.auth  ? (
+              {!user?.auth ? (
                 <>
                   {" "}
                   <li>
@@ -119,7 +118,7 @@ const Header = () => {
                 <>
                   <li onClick={handlelogout}>
                     <a
-                      href="/login"
+                      href="#"
                       className="flex py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
                     >
                       <span className="mt-1 mr-2">

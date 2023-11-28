@@ -25,9 +25,9 @@ const reducer = (state, { type, payload }) => {
     case "login":
       return {
         ...state,
-        user: payload.user, 
+        user: payload.user,
         token: payload.token,
-        auth: payload.auth,
+        auth: Boolean(payload.auth),
         role: payload.role,
       };
     case "logout":
@@ -52,14 +52,15 @@ export const AuthProvider = ({ children }) => {
           user,
           // token,
           role: Number(user.role),
-          // auth,
+          auth: Boolean(user.auth),
           token,
           // user.auth,
         },
+      
       });
+     
     }
-    setLoading(false);
-   
+    // setLoading(false);
   }, []);
   return (
     <DispatchContext.Provider value={dispatch}>

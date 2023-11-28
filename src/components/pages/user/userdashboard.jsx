@@ -1,6 +1,6 @@
 import Layout from "../../layout/layout";
 
-const Dashboard = () => {
+const UserDashboard = () => {
   return (
     <div>
       <Layout title={"Dashboard | Ecommerce"}>
@@ -9,4 +9,4 @@ const Dashboard = () => {
     </div>
   );
 };
-export default Dashboard;
+export default UserDashboard;
