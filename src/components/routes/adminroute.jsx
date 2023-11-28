@@ -1,43 +1,55 @@
 import React from "react";
 import { useState, useEffect } from "react";
-// import { useAuth } from "../../context/authRoute";
-import { Outlet, useNavigate } from "react-router-dom";
+import { Navigate, Outlet, useNavigate } from "react-router-dom";
 import axios from "axios";
 import Spinners from "../spinners";
 import AdminDashboard from "../pages/admin/admindashboard";
 import { useDispatchContext, useStateContext } from "../../context/authRoute";
-const Admin = () => {
-  const { user, token }  = useStateContext();
+import UserRoute from "./userroute";
+const AdminRoute = () => {
+  const { user, token, role } = useStateContext();
   const dispatch = useDispatchContext();
   const [ok, setok] = useState(false);
   const [loading, setLoading] = useState(true); // Add this line
-
+  const navigate = useNavigate();
   useEffect(() => {
     const Authcheck = async () => {
       setLoading(true); // Start loading
 
       try {
-        const token = localStorage.getItem('token'); // Get token from local storage
+        const token = localStorage.getItem("token"); // Get token from local storage
 
         if (token) {
           axios.defaults.headers.common["Authorization"] = token;
           const res = await axios.get("http://localhost:8080/admin-auth");
-
-          if (res.data.ok) {
+          // console.log(res.data.ok);
+          // console.log("this" + role);
+          if (res.data.ok == true) {
             setok(true);
           } else {
             // The token is invalid, remove it from local storage
-            localStorage.removeItem('token');
             setok(false);
+            localStorage.removeItem("token");
+            localStorage.removeItem("user");
           }
         } else {
           setok(false);
         }
       } catch (error) {
-        console.log(error)
         // An error occurred, remove the token from local storage
-        localStorage.removeItem('token');
-        setok(false);
+
+        if (error && role == 0) {
+          setok(false);
+          // console.log("role = 0 error " + error);
+          // navigate(<UserRoute/>);
+        } else if (error && role == 1) {
+          console.log(error);
+          dispatch({
+            type: "logout",
+          });
+          // localStorage.removeItem("token");
+          // localStorage.removeItem("user");
+        }
       }
 
       setLoading(false); // Stop loading
@@ -49,7 +61,7 @@ const Admin = () => {
     return <Spinners />;
   }
 
-  return ok ? <Outlet /> : <Spinners path="/"/>;
+  return ok ? <Outlet /> : <Spinners path={"/login"} />;
 };
 
-export default Admin;
+export default AdminRoute;

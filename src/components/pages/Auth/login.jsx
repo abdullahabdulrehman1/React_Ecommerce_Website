@@ -6,15 +6,13 @@ import {
   useDispatchContext,
   useStateContext,
 } from "../../../context/authRoute";
+import { Toast } from "flowbite-react";
 const Login = () => {
   const navigate = useNavigate();
   const [error, setError] = useState("");
   const location = useLocation();
-  // const [auth, setauth] = useAuth();
   const { user, token } = useStateContext();
-  // const user.role = useStateContext();
   const [loading, setLoading] = useState(true);
-
   const dispatch = useDispatchContext();
   const [formData, setFormData] = useState({
     email: "",
@@ -36,7 +34,6 @@ const Login = () => {
       setError("Please fill in all fields.");
       return;
     }
-
     // Create a data obj    ect to send to the server
     const data = {
       //   name,
@@ -52,24 +49,16 @@ const Login = () => {
         dispatch({
           type: "login",
           payload: {
-            // ...auth.state,
             ...user,
             user: res.data.user,
             token: res.data.token,
+            auth: Boolean(res.data.user.auth),
           },
-          //   password: res.data.password,
         });
-
-        // console.log(` JSON.Stringify(${res.data.user})`)
+        // Toast.success("Login Success");
         localStorage.setItem("user", JSON.stringify(res.data.user));
         localStorage.setItem("token", res.data.token);
-        // console.log(JSON.stringify(user.role))
-        if (location.state && location.state.from === "/dashboard") {
-          navigate("/dashboard");
-        } else {
-          navigate("/");
-        }
-        // console.log(token)
+     
       } else {
         setError(`${res.data.message}`);
       }
@@ -80,9 +69,6 @@ const Login = () => {
   };
 
   return (
-    // loading ? <Spinners /> :
-    // {setInterval(() => {}, 1000)}
-    // loading? <Spinners /> :
     <Layout title={"Login | Ecommerce"}>
       <div className="dark:bg-gray-900  light:bg-white-500">
         <div className="flex flex-col items-center justify-center px-6 py-0 mx-auto md:h-5/6 md:my-20 lg:py-0">
@@ -141,7 +127,6 @@ const Login = () => {
                   />
                 </div>
 
-                {/* {error && timeout(error)} */}
                 {error && (
                   <div className="text-red-500 text-lg font-bold ">{error}</div>
                 )}
@@ -160,9 +145,6 @@ const Login = () => {
                 <div>
                   <button
                     type="submit"
-                    // value={submit}
-
-                    // onClick={handleSubmit}
                     className="w-full py-3 text-white bg-gray-900 rounded-md hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-900 focus:ring-opacity-50"
                   >
                     LogIn

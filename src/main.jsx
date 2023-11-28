@@ -7,7 +7,7 @@ import { AuthProvider } from './context/authRoute.jsx'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <AuthProvider>
-    <App />
     <ToastContainer />
+    <App />
   </AuthProvider>
 )
